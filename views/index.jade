@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    h1= title
+    p Welcome to #{title}
+    //if !!position
+    //    p Your position is #{position.latitude}, #{position.longitude}
+    //else
+    //    p Position cannot be retrieved, did you enable access to your location?

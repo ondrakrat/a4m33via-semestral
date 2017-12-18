@@ -2,4 +2,5 @@
 .idea
 *.iml
 node_modules
-bin
+dist
+/npm-debug.log
