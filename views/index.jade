@@ -1,5 +1,8 @@
 extends layout
 
+block header-content
+    script(src="javascripts/geolocation.js")
+
 block content
     h1= title
     p Welcome to #{title}
@@ -7,3 +10,7 @@ block content
     //    p Your position is #{position.latitude}, #{position.longitude}
     //else
     //    p Position cannot be retrieved, did you enable access to your location?
+    script.
+        Geolocation.getLocation(function() {
+            console.log(Geolocation.coords);
+        });
