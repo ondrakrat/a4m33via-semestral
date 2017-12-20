@@ -10,15 +10,17 @@ block content
     .bs-docs-section.clearfix
             form#search(action="/search", method="get")
                 fieldset
+                    input#lat(type="hidden", name="lat")
+                    input#lng(type="hidden", name="lng")
                     .row
                         .col-lg-2
                             .form-group
                                 label(for="radius") Radius (m)
-                                input#radius.form-control(type="number")
+                                input#radius.form-control(type="number", name="radius")
                         .col-lg-2
                             .form-group
                                 label(for="type") Type
-                                select#type.form-control
+                                select#type.form-control(name="type")
                                     option(value="") All
                                     option(value="bar") Bar
                                     option(value="cafe") Cafe
@@ -28,15 +30,15 @@ block content
                         .col-lg-2
                             .form-group
                                 label(for="keyword") Keywords
-                                input#keyword.form-control(type="text")
+                                input#keyword.form-control(type="text", name="keyword")
                         .col-lg-2
                             .form-group
                                 label(for="open") Open now
-                                input#open.form-control(type="checkbox")
+                                input#open.form-control(type="checkbox", name="open")
                         .col-lg-2
                             .form-group
-                                label(for="price") Price
-                                select#price.form-control
+                                label(for="price") Maximum price
+                                select#price.form-control(name="price")
                                     option(value="") All
                                     option(value="0") Cheapest
                                     option(value="1") Regular
@@ -49,5 +51,8 @@ block content
                                 button.btn.btn-primary.form-control(type="submit") Search
     script.
         Geolocation.getLocation(function() {
-            console.log("Coords retrieved", Geolocation.coords);
+            var coords = Geolocation.coords;
+            console.log("Coords retrieved", coords);
+            document.getElementById("lat").value = coords.latitude;
+            document.getElementById("lng").value = coords.longitude;
         });

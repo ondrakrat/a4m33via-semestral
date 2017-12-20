@@ -1,9 +1,22 @@
 const express = require('express');
+const placesApi = require("./../models/PlacesApiCommunication.js");
 const router = express.Router();
 
-/* GET users listing. */
+/* Search request handler. */
 router.get('/', function (req, res, next) {
-    res.send('respond with a resource');
+    console.log(req.query);
+    const params = {
+        radius: req.query.radius,
+        query: req.query.keyword.split(" ").join("+"),
+        location: `${req.query.lat},${req.query.lng}`,
+        type: !!req.query.type ? req.query.type : null,
+        opennow: !!req.query.open,
+        maxprice: req.query.price
+    };
+    placesApi.sendRequest(params);
+    res.render('result', {
+        title: 'Restaurank'
+    });
 });
 
 module.exports = router;
