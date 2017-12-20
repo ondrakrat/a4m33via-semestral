@@ -4,13 +4,50 @@ block header-content
     script(src="javascripts/geolocation.js")
 
 block content
-    h1= title
-    p Welcome to #{title}
-    //if !!position
-    //    p Your position is #{position.latitude}, #{position.longitude}
-    //else
-    //    p Position cannot be retrieved, did you enable access to your location?
+    .bs-docs-section
+        h1= title
+        p Welcome to #{title}!
+    .bs-docs-section.clearfix
+            form#search(action="/search", method="get")
+                fieldset
+                    .row
+                        .col-lg-2
+                            .form-group
+                                label(for="radius") Radius (m)
+                                input#radius.form-control(type="number")
+                        .col-lg-2
+                            .form-group
+                                label(for="type") Type
+                                select#type.form-control
+                                    option(value="") All
+                                    option(value="bar") Bar
+                                    option(value="cafe") Cafe
+                                    option(value="night_club") Night club
+                                    option(value="restaurant") Restaurant
+                                    option(value="atm") ATM
+                        .col-lg-2
+                            .form-group
+                                label(for="keyword") Keywords
+                                input#keyword.form-control(type="text")
+                        .col-lg-2
+                            .form-group
+                                label(for="open") Open now
+                                input#open.form-control(type="checkbox")
+                        .col-lg-2
+                            .form-group
+                                label(for="price") Price
+                                select#price.form-control
+                                    option(value="") All
+                                    option(value="0") Cheapest
+                                    option(value="1") Regular
+                                    option(value="2") Fancy
+                                    option(value="3") Expensive
+                                    option(value="4") Millionaire
+                        .col-lg-2
+                            .form-group
+                                label &nbsp;
+                                button.btn.btn-primary.form-control(type="submit") Search
     script.
         Geolocation.getLocation(function() {
-            console.log(Geolocation.coords);
+            console.log("Coords retrieved", Geolocation.coords);
         });
