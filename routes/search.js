@@ -4,7 +4,6 @@ const router = express.Router();
 
 /* Search request handler. */
 router.get('/', function (req, res, next) {
-    console.log(req.query);
     const params = {
         radius: req.query.radius,
         query: req.query.keyword.split(" ").join("+"),
@@ -13,10 +12,12 @@ router.get('/', function (req, res, next) {
         opennow: !!req.query.open,
         maxprice: req.query.price
     };
-    placesApi.sendRequest(params);
-    res.render('result', {
-        title: 'Restaurank'
-    });
+    let apiResponse;
+    placesApi.sendRequest(params).pipe(res);
+    // res.render('result', {
+    //     title: 'Restaurank',
+    //     places: apiResponse
+    // });
 });
 
 module.exports = router;
