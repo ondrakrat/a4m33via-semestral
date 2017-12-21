@@ -17,7 +17,12 @@ router.get('/', function (req, res, next) {
         res.render('result', {
             title: 'Restaurank',
             places: !!error ? [] : JSON.parse(apiResponse).results,
-            error: error
+            error: error,
+            mapsApiKey: process.env.MAPS_API_KEY,
+            position: {
+                lat: parseFloat(req.query.lat),
+                lng: parseFloat(req.query.lng)
+            }
         });
     });
 });

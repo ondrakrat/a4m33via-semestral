@@ -1,5 +1,8 @@
 extends layout
 
+block header-content
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+
 block content
     .bs-docs-section
         if !!error
@@ -13,3 +16,51 @@ block content
             ul
             each place in places
                 li #{place.name}
+            .fullscreen-wrapper
+                #map
+            script.
+                const position = !{JSON.stringify(position)};
+                function initMap() {
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 16,
+                        center: position
+                    });
+                    const places = !{JSON.stringify(places)};
+                    places.forEach(function (value, index) {
+                        const coords = value.geometry.location;
+                        const marker = new google.maps.Marker({
+                            position: {
+                                lat: coords.lat,
+                                lng: coords.lng
+                            },
+                            map: map
+                        });
+                        const perc = (value.rating  / 5) * 100;
+                        const contentString = `
+                        <h4>${value.name}</h4>
+                        <p>${value.vicinity}</p>
+                        <div class="stars-outer">
+                            <div class="stars-inner" style="width: ${`${(Math.round(perc / 10) * 10)}%`};"></div>
+                        </div>
+                        `;
+                        const infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        marker.addListener('click', function () {
+                            infowindow.open(map, marker);
+                        });
+                    });
+                    const myPosition = new google.maps.Marker({
+                        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                        position: position,
+                        map: map
+                    });
+                    const myinfowindow = new google.maps.InfoWindow({
+                        content: "<h4>You are here</h4>"
+                    });
+                    myPosition.addListener("click", function() {
+                        myinfowindow.open(map, myPosition);
+                    });
+
+                }
+            script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + mapsApiKey + "&callback=initMap")

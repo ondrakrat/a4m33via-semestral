@@ -1,3 +1,38 @@
 .bs-docs-section:first-child {
     padding-top: 75px;
 }
+
+#map {
+    /*margin: 10px 0 0;*/
+    margin-top: 10px;
+    height: 600px;
+    width: 100%
+}
+
+/*.fullscreen-wrapper {*/
+/*min-height: 100%;*/
+/*}*/
+
+.stars-outer {
+    display: inline-block;
+    position: relative;
+    font-family: FontAwesome;
+}
+
+.stars-outer::before {
+    content: "\f006 \f006 \f006 \f006 \f006";
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+}
+
+.stars-inner::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    color: #f8ce0b;
+}
