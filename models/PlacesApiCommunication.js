@@ -11,13 +11,14 @@ class PlacesApiCommunication {
             if (!error && response.statusCode === 200) {
                 resultFunction(body);
             } else {
-                console.error("Error receiving response from Google Places API", error);
+                console.error("Error receiving response from Google Places API", error, body);
+                resultFunction(null, body);
             }
         });
     }
 
     static _buildUrl(params) {
-        let searchString = `${process.env.PLACES_URL}${process.env.PLACES_FORMAT}?key=${process.env.API_KEY}`;
+        let searchString = `${process.env.PLACES_URL}${process.env.PLACES_FORMAT}?key=${process.env.PLACES_API_KEY}`;
         const attributes = Object.getOwnPropertyNames(params);
         for (let i = 0; i < attributes.length; i++) {
             const attribute = attributes[i];

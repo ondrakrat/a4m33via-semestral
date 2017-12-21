@@ -2,7 +2,10 @@ extends layout
 
 block content
     .bs-docs-section
-        if !places || places.length === 0
+        if !!error
+            .alert.alert-danger
+                span An error has occurred when loading result. We are sorry for the inconvenience.
+        else if !places || places.length === 0
             .alert.alert-info
                 span No results match given criteria. &nbsp;
                 a(href="/") Change parameters
