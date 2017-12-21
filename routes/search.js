@@ -12,12 +12,12 @@ router.get('/', function (req, res, next) {
         opennow: !!req.query.open,
         maxprice: req.query.price
     };
-    let apiResponse;
-    placesApi.sendRequest(params).pipe(res);
-    // res.render('result', {
-    //     title: 'Restaurank',
-    //     places: apiResponse
-    // });
+    placesApi.sendRequest(params, (apiResponse) => {
+        res.render('result', {
+            title: 'Restaurank',
+            places: JSON.parse(apiResponse).results
+        });
+    });
 });
 
 module.exports = router;

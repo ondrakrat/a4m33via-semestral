@@ -5,12 +5,11 @@ const request = require('request');
 
 class PlacesApiCommunication {
 
-    static sendRequest(params) {
+    static sendRequest(params, resultFunction) {
         const url = this._buildUrl(params);
-        console.log(url);
         return request.get(url, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-                return body;
+                resultFunction(body);
             } else {
                 console.error("Error receiving response from Google Places API", error);
             }

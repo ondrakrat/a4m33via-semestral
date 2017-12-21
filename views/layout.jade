@@ -28,5 +28,12 @@ html
         .navbar.navbar-expand-lg.fixed-top.navbar-dark.bg-primary
             .container
                 a.navbar-brand(href="/") Restaurank
+                button.navbar.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarLinks",
+                aria-controls="navbarLinks", aria-expanded="false", aria-label="Toggle navigation")
+                    span.navbar-toggler-icon
+                #navbarLinks.collapse.navbar-collapse
+                    ul.navbar-nav
+                        li.nav-item
+                            a.nav-link(href="/") Search!
         .container
             block content
