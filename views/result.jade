@@ -13,11 +13,11 @@ block content
                 span No results match given criteria. &nbsp;
                 a(href="/") Change parameters
         else
-            ul
-            each place in places
-                li #{place.name}
+            h2
+                a(href="/") ← Back
             .fullscreen-wrapper
                 #map
+            script(src="javascripts/zomato.js")
             script.
                 const position = !{JSON.stringify(position)};
                 function initMap() {
@@ -35,19 +35,23 @@ block content
                             },
                             map: map
                         });
-                        const perc = (value.rating  / 5) * 100;
+                        const perc = (value.rating / 5) * 100;
                         const contentString = `
                         <h4>${value.name}</h4>
                         <p>${value.vicinity}</p>
                         <div class="stars-outer">
                             <div class="stars-inner" style="width: ${`${(Math.round(perc / 10) * 10)}%`};"></div>
                         </div>
+                        <div>lat: ${coords.lat}, lng: ${coords.lng}</div>
+                        <div id="menu"></div>
                         `;
                         const infowindow = new google.maps.InfoWindow({
                             content: contentString
                         });
                         marker.addListener('click', function () {
                             infowindow.open(map, marker);
+                            // TODO load menu from Zomato via AJAX
+                            getMenu(coords.lat, coords.lng);
                         });
                     });
                     const myPosition = new google.maps.Marker({
@@ -58,7 +62,7 @@ block content
                     const myinfowindow = new google.maps.InfoWindow({
                         content: "<h4>You are here</h4>"
                     });
-                    myPosition.addListener("click", function() {
+                    myPosition.addListener("click", function () {
                         myinfowindow.open(map, myPosition);
                     });
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const placesApi = require("./../models/PlacesApiCommunication.js");
+const zomatoApi = require("./../models/ZomatoApiCommunication.js");
 const inputSanitizer = require("./../models/InputSanitizer.js");
 const router = express.Router();
 
@@ -24,6 +25,14 @@ router.get('/', function (req, res, next) {
                 lng: parseFloat(req.query.lng)
             }
         });
+    });
+});
+
+router.get('/menu', function(req, res, next) {
+    zomatoApi.findRestaurant(req.query.lat, req.query.lng, (apiResponse, error) => {
+        // TODO handle errors
+        console.log(apiResponse, error);
+        res.send(apiResponse);
     });
 });
 
