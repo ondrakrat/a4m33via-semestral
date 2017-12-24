@@ -37,3 +37,7 @@
     content: "\f005 \f005 \f005 \f005 \f005";
     color: #f8ce0b;
 }
+
+#menu tbody th, #menu tbody td {
+    max-width: 500px; /* TODO responsive*/
+}
