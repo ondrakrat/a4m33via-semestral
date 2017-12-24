@@ -37,13 +37,15 @@ block content
                         });
                         const perc = (value.rating / 5) * 100;
                         const contentString = `
-                        <h4>${value.name}</h4>
-                        <p>${value.vicinity}</p>
-                        <div>(lat: ${coords.lat}, lng: ${coords.lng})</div>
-                        <div class="stars-outer">
-                            <div class="stars-inner" style="width: ${`${(Math.round(perc / 10) * 10)}%`};"></div>
+                        <div class="info-window">
+                            <h4>${value.name}</h4>
+                            <p>${value.vicinity}</p>
+                            <div>(lat: ${coords.lat}, lng: ${coords.lng})</div>
+                            <div class="stars-outer">
+                                <div class="stars-inner" style="width: ${`${(Math.round(perc / 10) * 10)}%`};"></div>
+                            </div>
+                            <div id="menu"></div>
                         </div>
-                        <div id="menu"></div>
                         `;
                         const infowindow = new google.maps.InfoWindow({
                             content: contentString

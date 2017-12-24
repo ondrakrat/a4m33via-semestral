@@ -55,7 +55,7 @@ function _parseMenu(json, element) {
             menu += `
                 <tr class='table-primary table-responsive-lg'>
                     <th scope='row'>${dish.name}</th>
-                    <td>${dish.price}</td>
+                    <td>${!!dish.price ? dish.price : "-"}</td>
                 </tr>
             `;
         }
