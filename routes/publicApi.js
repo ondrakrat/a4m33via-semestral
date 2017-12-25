@@ -2,17 +2,18 @@
  * Created by Ondřej Kratochvíl on 25.12.17.
  */
 const express = require('express');
+const request = require('request');
 const router = express.Router();
 
-router.get("/", function(req, res, next) {
+router.get("/", function (req, res, next) {
     let lat = req.query.lat;
     let lng = req.query.lng;
-    console.log(lat, lng);
-    if (!lat || !lng) {
+    let radius = req.query.radius;
+    if (!lat || !lng || !radius) {
         // missing params
         res.status(400).json({
             result: null,
-            error: "Both lat (latitude) and lng (longitude) must be present as query parameters."
+            error: "Radius and both lat (latitude) and lng (longitude) must be present as query parameters"
         });
     } else if (!parseFloat(lat) || lat < -90 || lat > 90) {
         // invalid lat
@@ -26,16 +27,30 @@ router.get("/", function(req, res, next) {
             result: null,
             error: "Longitude must be float number in the interval (-180; 180)"
         });
+    } else if (!parseInt(radius) || radius <= 0) {
+        // invalid radius
+        res.status(400).json({
+            result: null,
+            error: "Radius must be a positive integer"
+        });
     } else {
-        res.status(200).json({
-            result: "Success!",
-            error: null
+        const url = `${process.env.BASE_URL}search?lat=${lat}&lng=${lng}&radius=${radius}&type=restaurant&api=true`;
+        console.log(url);
+        request.get(url, (error, response, body) => {
+            if (!error && response.statusCode === 200) {
+                res.status(200).json({
+                    result: JSON.parse(body),
+                    error: null
+                });
+            } else {
+                res.status(500).json({
+                    result: null,
+                    error: error
+                });
+                console.error("Error during API request", error, body);
+            }
         });
     }
 });
-
-function isFloat(n){
-    return Number(n) === n && n % 1 !== 0;
-}
 
 module.exports = router;

@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
         maxprice: req.query.price
     };
     placesApi.sendRequest(params, (apiResponse, error) => {
-        res.render('result', {
+        const model = {
             title: 'Restaurank',
             places: !!error ? [] : JSON.parse(apiResponse).results,
             error: error,
@@ -24,7 +24,12 @@ router.get('/', function (req, res, next) {
                 lat: parseFloat(req.query.lat),
                 lng: parseFloat(req.query.lng)
             }
-        });
+        };
+        if (!!req.query.api && req.query.api === "true") {
+            res.json(model);
+        } else {
+            res.render('result', model);
+        }
     });
 });
 

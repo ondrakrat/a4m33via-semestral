@@ -4,7 +4,7 @@
 class InputSanitizer {
 
     static sanitize(input) {
-        return input
+        return !input ? null : input
             .split(" ").join("+")
             .split("ě").join("e")
             .split("č").join("c");
