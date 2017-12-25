@@ -6,6 +6,8 @@ filter them according to some criteria (card payment allowed, open after midnigh
 have draft beer etc.) and display a list sorted by their rank/distance. Additionally, 
 being able to web crawl their (especially lunch) menu would be a nice to have feature.
 
+The application is deployed on [Heroku](https://restaurank-app.herokuapp.com/).
+
 ## Features
 * Find nearby bars/cafés/restaurants/nigh clubs/ATMs (current position)
 * Other filter criteria - radius search, open now, price category, keywords
