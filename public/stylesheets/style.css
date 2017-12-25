@@ -49,7 +49,15 @@
     max-width: 600px;
 }
 
-#zomato-details .detail img {
+#zomato-details {
     max-width: 90%;
+}
+
+#zomato-details .detail {
+    margin-bottom: 10px;
+}
+
+#zomato-details .detail img {
+    max-width: 100%;
     margin-bottom: 10px;
 }

@@ -50,11 +50,15 @@ router.get('/menu', function (req, res, next) {
 function retrieveMenu(res, restaurant) {
     zomatoApi.getMenu(restaurant.id/*"16506246"*/, (apiResponse, error) => {
         const json = JSON.parse(apiResponse);
-        console.log(json);
-        if (!!error || json.status !== "success") {
+        if (error === "No daily menu available") {
             res.send({
                 detail: restaurant,
-                error: "Error when retrieving daily menu."
+                warning: error
+            });
+        } else if (!!error || json.status !== "success") {
+            res.send({
+                detail: restaurant,
+                error: error
             });
         } else {
             res.send({

@@ -12,18 +12,18 @@ function getMenu(latitude, longitude) {
     request.onload = function () {
         if (request.status >= 200 && request.status < 400) {
             const json = JSON.parse(request.responseText);
+            console.log("Zomato response", json);
+            if (!!json.detail) {
+                _parseDetail(json.detail, element);
+            }
+            if (!!json.menu && json.menu.length > 0) {
+                _parseMenu(json, element);
+            }
             if (!!json.error) {
                 element.innerHTML = element.innerHTML + `<div class='alert alert-danger'>${json.error}</div>`;
             }
             if (!!json.warning) {
                 element.innerHTML = element.innerHTML + `<div class='alert alert-warning'>${json.warning}</div>`;
-            }
-            if (!!json.detail) {
-                console.log(json);
-                _parseDetail(json.detail, element);
-            }
-            if (!!json.menu && json.menu.length > 0) {
-                _parseMenu(json, element);
             }
         } else {
             element.innerHTML = "<div class='alert alert-danger'>Error when fetching menu</div>";
