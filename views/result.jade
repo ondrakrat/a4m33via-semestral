@@ -20,6 +20,7 @@ block content
             script(src="javascripts/zomato.js")
             script.
                 const position = !{JSON.stringify(position)};
+                let openInfoWindow = null;
                 function initMap() {
                     const map = new google.maps.Map(document.getElementById("map"), {
                         zoom: 16,
@@ -51,9 +52,18 @@ block content
                             content: contentString
                         });
                         marker.addListener('click', function () {
+                            // close other windows
+                            if (!!openInfoWindow) {
+                                openInfoWindow.close();
+                            }
                             infowindow.open(map, marker);
-                            // TODO load menu from Zomato via AJAX
-                            getMenu(coords.lat, coords.lng);
+                            map.setCenter(marker.getPosition());
+                            if (!document.querySelector("#zomato-details").innerHTML) {
+                                getMenu(coords.lat, coords.lng);
+                            } else {
+                                console.log("already loaded");
+                            }
+                            openInfoWindow = infowindow;
                         });
                     });
                     const myPosition = new google.maps.Marker({
