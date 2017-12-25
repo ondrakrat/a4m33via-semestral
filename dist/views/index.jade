@@ -1,0 +1,60 @@
+extends layout
+
+block header-content
+    script(src="javascripts/geolocation.js")
+
+block content
+    .bs-docs-section
+        h1 Restaurank
+        p Welcome to Restaurank!
+    .bs-docs-section.clearfix
+        h3 Search options
+        form#search(action="/search", method="get")
+            fieldset
+                input#lat(type="hidden", name="lat")
+                input#lng(type="hidden", name="lng")
+                .row
+                    .col-lg-2
+                        .form-group
+                            label(for="radius") Radius (m)
+                            input#radius.form-control(type="number", name="radius",
+                            value="1000" min="1", max="50000", required="required")
+                    .col-lg-2
+                        .form-group
+                            label(for="type") Type
+                            select#type.form-control(name="type")
+                                option(value="") All
+                                option(value="bar") Bar
+                                option(value="cafe") Cafe
+                                option(value="night_club") Night club
+                                option(value="restaurant") Restaurant
+                                option(value="atm") ATM
+                    .col-lg-2
+                        .form-group
+                            label(for="keyword") Keywords
+                            input#keyword.form-control(type="text", name="keyword")
+                    .col-lg-2
+                        .form-group
+                            label(for="open") Open now
+                            input#open.form-control(type="checkbox", name="open")
+                    .col-lg-2
+                        .form-group
+                            label(for="price") Maximum price
+                            select#price.form-control(name="price")
+                                option(value="") All
+                                option(value="0") Cheapest
+                                option(value="1") Regular
+                                option(value="2") Fancy
+                                option(value="3") Expensive
+                                option(value="4") Millionaire
+                    .col-lg-2
+                        .form-group
+                            label &nbsp;
+                            button.btn.btn-primary.form-control(type="submit") Search
+    script.
+        Geolocation.getLocation(function () {
+            var coords = Geolocation.coords;
+            console.log("Coords retrieved", coords);
+            document.getElementById("lat").value = coords.latitude;
+            document.getElementById("lng").value = coords.longitude;
+        });

@@ -1,0 +1,82 @@
+extends layout
+
+block header-content
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+
+block content
+    .bs-docs-section
+        if !!error
+            .alert.alert-danger
+                span An error has occurred when loading result. We are sorry for the inconvenience.
+        else if !places || places.length === 0
+            .alert.alert-info
+                span No results match given criteria. &nbsp;
+                a(href="/") Change parameters
+        else
+            h2
+                a(href="/") ← Back
+            .fullscreen-wrapper
+                #map
+            script(src="javascripts/zomato.js")
+            script.
+                const position = !{JSON.stringify(position)};
+                let openInfoWindow = null;
+                function initMap() {
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 16,
+                        center: position
+                    });
+                    const places = !{JSON.stringify(places)};
+                    places.forEach(function (value, index) {
+                        const coords = value.geometry.location;
+                        const marker = new google.maps.Marker({
+                            position: {
+                                lat: coords.lat,
+                                lng: coords.lng
+                            },
+                            map: map
+                        });
+                        const perc = (value.rating / 5) * 100;
+                        const contentString = `
+                        <div class="info-window">
+                            <h4>${value.name}</h4>
+                            <p>${value.vicinity}</p>
+                            <div>(lat: ${coords.lat}, lng: ${coords.lng})</div>
+                            <div class="stars-outer">
+                                <div class="stars-inner" style="width: ${`${(Math.round(perc / 10) * 10)}%`};"></div>
+                            </div>
+                            <div id="zomato-details"></div>
+                        </div>
+                        `;
+                        const infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        marker.addListener('click', function () {
+                            // close other windows
+                            if (!!openInfoWindow) {
+                                openInfoWindow.close();
+                            }
+                            infowindow.open(map, marker);
+                            map.setCenter(marker.getPosition());
+                            if (!document.querySelector("#zomato-details").innerHTML) {
+                                getMenu(coords.lat, coords.lng);
+                            } else {
+                                console.log("already loaded");
+                            }
+                            openInfoWindow = infowindow;
+                        });
+                    });
+                    const myPosition = new google.maps.Marker({
+                        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                        position: position,
+                        map: map
+                    });
+                    const myinfowindow = new google.maps.InfoWindow({
+                        content: "<h4>You are here</h4>"
+                    });
+                    myPosition.addListener("click", function () {
+                        myinfowindow.open(map, myPosition);
+                    });
+
+                }
+            script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + mapsApiKey + "&callback=initMap")
