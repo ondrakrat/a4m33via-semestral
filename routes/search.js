@@ -32,34 +32,33 @@ router.get('/menu', function (req, res, next) {
     zomatoApi.findRestaurant(req.query.lat, req.query.lng, (apiResponse, error) => {
         if (!!error) {
             res.send({
-                error: "Error when retrieving menu."
+                error: "Error when retrieving daily menu."
             });
         } else {
             const restaurant = JSON.parse(apiResponse);
             if (!!restaurant) {
-                const id = restaurant.id;
-                // retrieveMenu(res, id);
-                retrieveMenu(res, "16506246");
+                retrieveMenu(res, restaurant);
             } else {
                 res.send({
-                    warning: "No lunch menu available."
+                    warning: "No daily menu available."
                 });
             }
         }
     });
 });
 
-function retrieveMenu(res, id) {
-    zomatoApi.getMenu(id, (apiResponse, error) => {
+function retrieveMenu(res, restaurant) {
+    zomatoApi.getMenu(restaurant.id/*"16506246"*/, (apiResponse, error) => {
         const json = JSON.parse(apiResponse);
         console.log(json);
         if (!!error || json.status !== "success") {
             res.send({
-                error: "Error when retrieving menu."
+                detail: restaurant,
+                error: "Error when retrieving daily menu."
             });
         } else {
-            // TODO add pics or it didn't happen
             res.send({
+                detail: restaurant,      // restaaurant details
                 menu: json.daily_menus   // array of daily_menu elements
             })
         }

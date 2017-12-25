@@ -5,24 +5,26 @@ const BASE_URL = "http://localhost:3000/";
 
 function getMenu(latitude, longitude) {
     const url = `${BASE_URL}search/menu?lat=${latitude}&lng=${longitude}`;
-    const element = document.querySelector("#menu");
+    const element = document.querySelector("#zomato-details");
 
     const request = new XMLHttpRequest();
     request.open("GET", url, true);
     request.onload = function () {
         if (request.status >= 200 && request.status < 400) {
-            // TODO properly format, add pics
             const json = JSON.parse(request.responseText);
             if (!!json.error) {
-                element.innerHTML = `<div class='alert alert-danger'>${json.error}</div>`;
+                element.innerHTML = element.innerHTML + `<div class='alert alert-danger'>${json.error}</div>`;
             }
             if (!!json.warning) {
-                element.innerHTML = `<div class='alert alert-warning'>${json.warning}</div>`;
+                element.innerHTML = element.innerHTML + `<div class='alert alert-warning'>${json.warning}</div>`;
+            }
+            if (!!json.detail) {
+                console.log(json);
+                _parseDetail(json.detail, element);
             }
             if (!!json.menu && json.menu.length > 0) {
                 _parseMenu(json, element);
             }
-            // TODO render imgs
         } else {
             element.innerHTML = "<div class='alert alert-danger'>Error when fetching menu</div>";
             console.error("Error when fetching menu", request.responseText);
@@ -35,8 +37,25 @@ function getMenu(latitude, longitude) {
     request.send();
 }
 
+function _parseDetail(detail, element) {
+    const content = `
+        <div class="detail">
+            <h5>Details:</h5>
+            <img src="${detail.featured_image}">
+            <div>
+                <strong>Average cost for two: </strong> 
+                ${(!!detail.average_cost_for_two && !!detail.currency)
+                    ? (detail.average_cost_for_two + " " + detail.currency) 
+                    : "-"}
+            </div>
+            <a href="${detail.menu_url}">Menu link</a>
+        </div>
+    `;
+    element.innerHTML = element.innerHTML + content;
+}
+
 function _parseMenu(json, element) {
-    let menu = "<h6>Daily menus:</h6>";
+    let menu = "<div class='menu'><h5>Daily menus:</h5>";
     for (let i = 0; i < json.menu.length; ++i) {
         const dailyMenuElement = json.menu[i].daily_menu;
         menu += `
@@ -59,7 +78,7 @@ function _parseMenu(json, element) {
                 </tr>
             `;
         }
-        menu += "</tbody></table>";
+        menu += "</tbody></table></div>";
     }
-    element.innerHTML = menu;
+    element.innerHTML = element.innerHTML + menu;
 }

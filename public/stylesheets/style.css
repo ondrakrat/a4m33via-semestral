@@ -40,11 +40,16 @@
     color: #f8ce0b;
 }
 
-#menu tbody th, #menu tbody td {
+#zomato-details tbody th, #zomato-details tbody td {
     max-width: 500px; /* TODO responsive*/
 }
 
 .info-window {
     max-height: 300px; /* TODO responsive*/
     max-width: 600px;
+}
+
+#zomato-details .detail img {
+    max-width: 90%;
+    margin-bottom: 10px;
 }

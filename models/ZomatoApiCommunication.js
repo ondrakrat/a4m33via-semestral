@@ -19,6 +19,7 @@ class ZomatoApiCommunication {
             if (!error && response.statusCode === 200) {    // TODO: what if no restaurant is found? What status?
                 const res = JSON.parse(body);
                 if (!!res && res.restaurants.length > 0) {
+                    // TODO wrong restaurant is sometimes returned
                     resultFunction(JSON.stringify(res.restaurants[0].restaurant));
                 } else {
                     resultFunction(null);
@@ -31,7 +32,7 @@ class ZomatoApiCommunication {
     }
 
     static getMenu(id, resultFunction) {    // kosmac: 18311812, ppp: 18362498, lokal: 16506246
-        console.log("Retrieving menu for restaurant id", id);
+        console.log("Retrieving daily menu for restaurant id", id);
         const url = `${process.env.ZOMATO_URL}${process.env.ZOMATO_MENU_ENDPOINT}?res_id=${id}`;
         const options = {
             url: url,
@@ -45,7 +46,7 @@ class ZomatoApiCommunication {
             if (!error && response.statusCode === 200) {
                 resultFunction(JSON.stringify(res));
             } else if (!!res && res.message === "No Daily Menu Available") {
-                resultFunction(null, "No menu available");
+                resultFunction(null, "No daily menu available");
             } else {
                 console.error("Error receiving response from Zomato API", error, body);
                 resultFunction(null, res.message);
