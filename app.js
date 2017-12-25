@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 
 const index = require('./routes/index');
 const search = require('./routes/search');
+const publicApi = require('./routes/publicApi');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/search', search);
+app.use('/api', publicApi);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
