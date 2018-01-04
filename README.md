@@ -14,6 +14,33 @@ being able to web crawl their (especially lunch) menu would be a nice to have fe
 * Daily menu if available
 * Public API for external usage (not only current location)
 
+## Technology
+Both the server and client parts are written in JavaScript, the server side is implemented 
+in [NodeJS](https://nodejs.org) with the use of [Express](https://expressjs.com/) framework. 
+The scripts are written in ECMAScript6 and transpiled with [Babel](https://babeljs.io/), so 
+that wide range of browsers is supported. The templates on the client side are written in 
+[Jade](http://jade-lang.com/), and the scripts rely on HTML5 Geolocation API.
+
+## Running the server locally
+In order to run the server locally, make sure that [npm](https://www.npmjs.com/) is installed 
+on your machine. Afterwards, do the following steps:
+
+Clone the project from git:
+```
+git clone https://github.com/ondrakrat/a4m33via-semestral
+```
+
+Update the variables in the [.env](.env) file, most importantly set the base URL and your 
+API keys to the various APIs.
+
+Build and run the server:
+```
+cd a4m33via-semestral
+npm run build && npm run start
+```
+
+That's it! Your server is now running at the provided port, by default `localhost:3000`.
+
 ## API communication
 *Restaurank* uses [Google Places API](https://developers.google.com/places/) for loading nearby 
 restaurants, as it contains far more data than any other API. The locations are then marked 
