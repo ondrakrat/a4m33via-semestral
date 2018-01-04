@@ -19,6 +19,7 @@ var PlacesApiCommunication = function () {
         value: function sendRequest(params, resultFunction) {
             var url = this._buildUrl(params);
             request.get(url, function (error, response, body) {
+                console.log(error, body);
                 if (!error && response.statusCode === 200) {
                     resultFunction(body);
                 } else {

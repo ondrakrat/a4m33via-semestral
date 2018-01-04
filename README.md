@@ -29,7 +29,7 @@ on your machine. Afterwards, do the following steps:
 
 Clone the project from git:
 ```
-git clone https://github.com/ondrakrat/a4m33via-semestral
+git clone -b localhost --single-branch https://github.com/ondrakrat/a4m33via-semestral
 ```
 
 Update the variables in the [.env](.env) file, most importantly set the base URL and your 

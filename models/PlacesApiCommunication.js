@@ -8,6 +8,7 @@ class PlacesApiCommunication {
     static sendRequest(params, resultFunction) {
         const url = this._buildUrl(params);
         request.get(url, (error, response, body) => {
+            console.log(error, body);
             if (!error && response.statusCode === 200) {
                 resultFunction(body);
             } else {

@@ -3,7 +3,7 @@
 /**
  * Created by Ondřej Kratochvíl on 22.12.17.
  */
-var BASE_URL = "https://restaurank-app.herokuapp.com/";
+var BASE_URL = "http://localhost:3000/";
 
 function getMenu(latitude, longitude) {
     var url = BASE_URL + "search/menu?lat=" + latitude + "&lng=" + longitude;
